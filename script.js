@@ -208,8 +208,13 @@ $(document).ready(function () {
 }
 
 
+
+// Update arrow visibility after changing halls
 function updateHall(hallIndex) {
   const currentHallElement = $(`#halls .hall:nth-child(${hallIndex + 1})`);
+
+  // Hide all details containers before transitioning
+  $(".details").hide();
 
   // Show the black overlay and fade in
   $("#black-overlay").fadeIn(1000, function () {
@@ -224,6 +229,7 @@ function updateHall(hallIndex) {
 
   updateArrowVisibility(); // Update arrow visibility after changing halls
 }
+
 
 
   // Update arrow visibility
