@@ -1,0 +1,249 @@
+/* Perustyylit body ja html elementeille */
+body, html {
+  margin: 0;
+  font-family: Arial, sans-serif; /* Käytetään Arial-fonttia */
+  background-color: #000; /* Musta tausta */
+  color: #FFF; /* Valkoinen teksti */
+}
+
+/* Header-elementin tyylit */
+header {
+  width: 100%; /* Kattaa koko leveyden */
+  text-align: center; /* Teksti keskitetty */
+  background-color: #000; /* Musta tausta */
+  color: #FFD700; /* Kultainen teksti */
+  font-size: 1.5rem; /* Fontin koko */
+  margin: 0;
+  padding: 20px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.8); /* Varjostus efekti */
+}
+
+/* Headerissa oleva taulukko on oletuksena piilotettu */
+header table{
+  color: #FFD700; /* Kultainen teksti */
+  display: none; /* Piilotettu oletuksena */
+}
+
+/* Headerin kuvan tyyli */
+header img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Keskittää kuvan */
+  opacity: 0; /* Läpinäkyvä aluksi */
+  visibility: hidden; /* Piilotettu oletuksena */
+  transition: opacity 0.5s ease, visibility 0.5s ease; /* Sulava siirtymä */
+  width: 300px;
+  height: auto;
+  margin-top: 25px;
+}
+
+/* Header-otsikko */
+h1 {
+  font-size: 48px; /* Isompi fonttikoko */
+  color: #FFD700; /* Kultainen väri */
+  text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.8), 
+                 -2px -2px 3px rgba(255, 255, 255, 0.4); /* Varjostusefekti */
+}
+
+/* Headerin hover-tilan kuva tulee näkyviin */
+header:hover img {
+  opacity: 1; /* Näkyvä kuva */
+  visibility: visible; /* Kuva näkyy */
+  z-index: 1000; /* Asetetaan päälle muiden elementtien */
+}
+
+/* Listaelementit */
+li {
+  margin-bottom: 8px; /* Väli listan kohtien välillä */
+}
+
+/* Header laajenee hover-tilassa */
+header:hover {
+  height: 600px;
+  z-index: 1000;
+  position: absolute;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.8); /* Lisää varjostusta */
+}
+
+/* Taulukon kontaineri headerissa */
+.table-container {
+  display: none; /* Piilotettu oletuksena */
+  text-align: justify; /* Tekstin tasaus molemmille reunoille */
+  font-size: 20px; /* Fontin koko */
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-top: 25px;
+}
+
+/* Taulukon solujen tyyli */
+header .table-container table td {
+  padding: 5px;
+}
+
+/* Hover-tilassa taulukko tulee näkyviin */
+header:hover .table-container {
+  display: flex;
+}
+
+header:hover table {
+  display: block;
+}
+
+/* Pääkontainerin tyylit */
+#cinema-container {
+  position: relative;
+  overflow: hidden;
+  height: 100vh; /* Koko näkymän korkeus */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #000;
+}
+
+/* Halls-elementin tyylit */
+#halls {
+  display: flex;
+  position: absolute;
+  left: 0;
+  transition: transform 1s ease-in-out; /* Sulava siirtymä */
+}
+
+/* Yksittäinen hall */
+.hall {
+  min-width: 100vw; /* Yksi hall vie koko näytön leveyden */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Videokontainerin tyylit */
+.video-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 60%;
+  position: relative;
+}
+
+/* Videon kehys */
+.video-wrapper {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-height: 480px;
+  max-width: 900px;
+  margin-top: -220px;
+}
+
+/* Videon tyyli */
+video {
+  width: 100%;
+  display: block;
+  max-height: 400px;
+}
+
+/* Videon hover-tilassa kursori vaihtuu osoittimeksi */
+video:hover {
+  cursor: pointer;
+}
+
+/* Videon otsikon tyyli */
+.details {
+  position: absolute;
+  top: -225px;
+  text-align: center;
+  color: white;
+  font-size: 1.2rem;
+  font-weight: bold;
+  display: none; /* Piilotettu oletuksena */
+}
+
+/* Otsikon sisäinen tyyli */
+.details h2 {
+  color: white; /* Valkoinen teksti */
+  font-size: 2rem; /* Isompi fonttikoko */
+  font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); /* Subteli varjostus */
+}
+
+/* Navigaatiopainikkeet */
+#navigation {
+  position: absolute;
+  bottom: 20px; /* Sijoitus alas */
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Painikkeiden tyyli */
+#navigation .btn {
+  font-size: 1.5rem;
+  padding: 10px 20px;
+  border: none;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Painikkeen hover-tila */
+#navigation .btn:hover {
+  background-color: #444;
+}
+
+/* Painikkeiden sisäinen ikonityyli */
+#navigation .btn i {
+  font-size: 1.5rem;
+}
+
+/* Responsiivinen suunnittelu pienille näytöille */
+@media (max-width: 768px) {
+  video {
+    max-height: 200px;
+  }
+
+  .video-container {
+    width: 90%;
+  }
+
+  #navigation .btn {
+    padding: 8px 16px;
+    font-size: 1.2rem;
+  }
+}
+
+/* Taustakuva */
+.cinema-background {
+  background: url('assets/images/movie-theater-2502213_1920.jpg') no-repeat center top;
+  background-size: cover;
+  width: 100%;
+  height: calc(100vh - 50px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: height 0s linear, background-position 0s linear;
+}
+
+/* Navigaation nuolien sijoittelu */
+#prev, #next {
+  position: fixed;
+  bottom: 20px; /* Molemmat nuolipainikkeet samalla tasolla */
+}
+
+#prev {
+  left: 20px; /* Vasen nuoli */
+}
+
+#next {
+  right: 20px; /* Oikea nuoli */
+}
