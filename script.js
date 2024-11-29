@@ -97,131 +97,134 @@ $(document).ready(function () {
     console.log("Playing movie for hall:", hallElement);
 
     resetAllVideos();
+    detailsContainer.hide(); // Always hide the title container initially
 
     if (countdownVideo && mainVideo) {
-      console.log("Playing countdown video...");
-      $(countdownVideo).show().fadeIn(500, function () {
-        countdownVideo.play();
-        countdownVideo.onended = function () {
-          console.log("Countdown video ended, switching to main video...");
-          $(countdownVideo).fadeOut(500, function () {
-            $(mainVideo).show().fadeIn(500, function () {
-              mainVideo.play();
-              console.log("Main video playing.");
+        console.log("Playing countdown video...");
+        $(countdownVideo).show().fadeIn(500, function () {
+            countdownVideo.play();
+            countdownVideo.onended = function () {
+                console.log("Countdown video ended, switching to main video...");
+                $(countdownVideo).fadeOut(500, function () {
+                    $(mainVideo).show().fadeIn(500, function () {
+                        mainVideo.play();
+                        console.log("Main video playing.");
 
-              // Display the title in the details section for the main video
-              const hallIndex = hallElement.index();
-              if (videoData[hallIndex]) {
+                        // Display the title in the details section for the main video
+                        const hallIndex = hallElement.index();
+                        if (videoData[hallIndex]) {
+                            const title = videoData[hallIndex].title;
+                            detailsContainer.html(`<h2>HALL ${hallIndex + 1}: ${title}</h2>`); // Dynamically add title
+                            detailsContainer.fadeIn(1000); // Show the details container
+                        }
+
+                        // Flag to track if the video was playing
+                        let wasPlaying = !mainVideo.paused;
+
+                        // Monitor header height and pause/resume video
+                        const headerObserver = new ResizeObserver(() => {
+                            const headerHeight = $("header").outerHeight();
+                            console.log(`Header height: ${headerHeight}px`);
+
+                            if (headerHeight > 100) {
+                                if (!mainVideo.paused) {
+                                    wasPlaying = true; // Remember that the video was playing
+                                    console.log("Header height exceeded 100px. Pausing video.");
+                                    mainVideo.pause();
+                                }
+                            } else {
+                                if (wasPlaying) {
+                                    console.log("Header height is 100px or less. Resuming video.");
+                                    mainVideo.play();
+                                    wasPlaying = false; // Reset the flag after resuming
+                                }
+                            }
+                        });
+
+                        // Observe the header element
+                        headerObserver.observe($("header")[0]);
+
+                        // Stop observing when the video ends
+                        mainVideo.onended = function () {
+                            headerObserver.disconnect();
+                            console.log("Main video ended. Stopped observing header.");
+                            detailsContainer.fadeOut(1000); // Hide the details container when the main video ends
+                        };
+                    });
+                });
+            };
+        });
+    } else if (mainVideo) {
+        console.log("Playing main video directly...");
+        $(mainVideo).show().fadeIn(500, function () {
+            mainVideo.play();
+            console.log("Main video playing.");
+
+            // Display the title in the details section for the main video
+            const hallIndex = hallElement.index();
+            if (videoData[hallIndex]) {
                 const title = videoData[hallIndex].title;
-                detailsContainer.html(`<h2>HALL ${hallIndex + 1}: ${title}</h2>`); // Dynamically add title
-                detailsContainer.fadeIn(500); // Show the details container
-              }
+                detailsContainer.html(`<h2>${title}</h2>`); // Dynamically add title
+                detailsContainer.fadeIn(1000); // Show the details container
+            }
 
-              // Flag to track if the video was playing
-              let wasPlaying = !mainVideo.paused;
+            // Flag to track if the video was playing
+            let wasPlaying = !mainVideo.paused;
 
-              // Monitor header height and pause/resume video
-              const headerObserver = new ResizeObserver(() => {
+            // Monitor header height and pause/resume video
+            const headerObserver = new ResizeObserver(() => {
                 const headerHeight = $("header").outerHeight();
                 console.log(`Header height: ${headerHeight}px`);
 
                 if (headerHeight > 100) {
-                  if (!mainVideo.paused) {
-                    wasPlaying = true; // Remember that the video was playing
-                    console.log("Header height exceeded 100px. Pausing video.");
-                    mainVideo.pause();
-                  }
+                    if (!mainVideo.paused) {
+                        wasPlaying = true; // Remember that the video was playing
+                        console.log("Header height exceeded 100px. Pausing video.");
+                        mainVideo.pause();
+                    }
                 } else {
-                  if (wasPlaying) {
-                    console.log("Header height is 100px or less. Resuming video.");
-                    mainVideo.play();
-                    wasPlaying = false; // Reset the flag after resuming
-                  }
+                    if (wasPlaying) {
+                        console.log("Header height is 100px or less. Resuming video.");
+                        mainVideo.play();
+                        wasPlaying = false; // Reset the flag after resuming
+                    }
                 }
-              });
+            });
 
-              // Observe the header element
-              headerObserver.observe($("header")[0]);
+            // Observe the header element
+            headerObserver.observe($("header")[0]);
 
-              // Stop observing when the video ends
-              mainVideo.onended = function () {
+            // Stop observing when the video ends
+            mainVideo.onended = function () {
                 headerObserver.disconnect();
                 console.log("Main video ended. Stopped observing header.");
-                detailsContainer.fadeOut(500); // Hide the details container when the main video ends
-              };
-            });
-          });
-        };
-      });
-    } else if (mainVideo) {
-      console.log("Playing main video directly...");
-      $(mainVideo).show().fadeIn(500, function () {
-        mainVideo.play();
-        console.log("Main video playing.");
-
-        // Display the title in the details section for the main video
-        const hallIndex = hallElement.index();
-        if (videoData[hallIndex]) {
-          const title = videoData[hallIndex].title;
-          detailsContainer.html(`<h2>${title}</h2>`); // Dynamically add title
-          detailsContainer.fadeIn(500); // Show the details container
-        }
-
-        // Flag to track if the video was playing
-        let wasPlaying = !mainVideo.paused;
-
-        // Monitor header height and pause/resume video
-        const headerObserver = new ResizeObserver(() => {
-          const headerHeight = $("header").outerHeight();
-          console.log(`Header height: ${headerHeight}px`);
-
-          if (headerHeight > 100) {
-            if (!mainVideo.paused) {
-              wasPlaying = true; // Remember that the video was playing
-              console.log("Header height exceeded 100px. Pausing video.");
-              mainVideo.pause();
-            }
-          } else {
-            if (wasPlaying) {
-              console.log("Header height is 100px or less. Resuming video.");
-              mainVideo.play();
-              wasPlaying = false; // Reset the flag after resuming
-            }
-          }
+                detailsContainer.fadeOut(1000); // Hide the details container when the main video ends
+            };
         });
-
-        // Observe the header element
-        headerObserver.observe($("header")[0]);
-
-        // Stop observing when the video ends
-        mainVideo.onended = function () {
-          headerObserver.disconnect();
-          console.log("Main video ended. Stopped observing header.");
-          detailsContainer.fadeOut(500); // Hide the details container when the main video ends
-        };
-      });
     } else {
-      console.error("No videos found in the current hall!");
+        console.error("No videos found in the current hall!");
+        detailsContainer.hide(); // Ensure title is hidden if no main video exists
     }
-  }
+}
 
-  function updateHall(hallIndex) {
-    const currentHallElement = $(`#halls .hall:nth-child(${hallIndex + 1})`);
 
-    // Show the black overlay
-    $("#black-overlay").css("display", "block").animate({ opacity: 1 }, 1000, function () {
+function updateHall(hallIndex) {
+  const currentHallElement = $(`#halls .hall:nth-child(${hallIndex + 1})`);
+
+  // Show the black overlay and fade in
+  $("#black-overlay").fadeIn(1000, function () {
       $(".hall").hide(); // Hide all halls
       currentHallElement.show(); // Show the selected hall
 
-      // Hide the black overlay after showing the new hall
-      $("#black-overlay").animate({ opacity: 0 }, 1000, function () {
-        $("#black-overlay").css("display", "none");
-        playMovie(currentHallElement); // Play the current hall's video
+      // Fade out the black overlay after showing the new hall
+      $("#black-overlay").fadeOut(1000, function () {
+          playMovie(currentHallElement); // Play the current hall's video
       });
-    });
+  });
 
-    updateArrowVisibility(); // Update arrow visibility after changing halls
-  }
+  updateArrowVisibility(); // Update arrow visibility after changing halls
+}
+
 
   // Update arrow visibility
   function updateArrowVisibility() {
